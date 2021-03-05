@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,10 +10,16 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float moveSpeed;
     private int score = 0;
+    public Text scoreText;
+    public Text winText;
+    public Image winImage;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        scoreText.text = "Score = " + score;
+        winText.text = "";
     }
 
     void Update()
@@ -28,10 +35,13 @@ public class PlayerMovement : MonoBehaviour
         float z = Input.GetAxis("Vertical") * moveSpeed;
         rb.AddForce(x, 0, z);
 
-        if(score >= 8)
+        if(score >=8)
         {
-            print("Congrats, you yeeted dem cubes");
+            winText.text = "Congrats, you won!";
+            winText.color = Color.green;
+            scoreText.text = "Winner, Winner Winner!";
         }
+
     }
 
     void OnTriggerEnter(Collider otherObject)
@@ -43,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
             Destroy(otherObject.gameObject);
             //print("Yeet");
             score += 1;
-            print("Score = " + score);
+            scoreText.text = ("Score = " + score);
             //score = score + 1;
             //score++;
             //All three will add 1 to the score, score++ will only ever add 1
